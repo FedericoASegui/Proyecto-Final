@@ -1,0 +1,37 @@
+{% extends 'AppMaterias/padre.html' %}
+
+{% block head %}
+    <title>Materias aprobadas</title>
+{% endblock head %}
+
+{% block body %}
+    <h1>En esta sección podes ver las materias que tenes aprobadas hasta el momento.</h1>
+
+{% endblock body %}
+
+{% block reseñas %}
+
+<a href="{% url 'Añadir Materias' %}">Añadir una nueva materia.</a>
+
+{% for e in resultados %}
+
+    <p>Materia :{{e.nombre}}</p>
+    <p>Calificación: {{e.numero}}</p>
+
+    <img src="{{e.imagen.url}}" alt="No hay imagen.">
+
+
+    <button>
+        <a href="{% url 'Editar Materia' e.nombre %}">Editar la materia.</a>
+    
+    </button>
+
+
+    <p>********************************************************</p>
+
+{% endfor %}
+
+
+
+
+{% endblock %}

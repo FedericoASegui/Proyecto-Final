@@ -1,0 +1,29 @@
+{% extends 'AppMaterias/padre.html' %}
+
+{% block head %}
+    <title>Campus de Materias</title>
+{% endblock head %}
+
+{% block body %}
+    <h1>{{mensaje}}</h1>
+    <h1>Bienvenidos a nuestro campus facultativo!</h1>
+    <p>Acá vas a poder cargar tus materias aprobadas junto con su califiación final para que vayas llevando la carrera ordenada!</p>
+{% endblock body %}
+
+{% block reseñas %}
+<div class="col-lg-4">
+    <!-- Search widget-->
+    <div class="card mb-4">
+        <form action="/AppMaterias/buscar/" method="GET">
+            <div class="card-header">Buscar Materias</div>
+            <div class="card-body">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Ingresa el nombre..." name="reseña" id="reseña" />
+                    <input type="submit" value="Buscar">
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</div>
+{% endblock %}

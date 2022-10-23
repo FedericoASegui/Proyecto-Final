@@ -1,0 +1,27 @@
+{% extends 'AppMaterias/padre.html' %}
+
+{% block head %}
+    <title>Añadir materias</title>
+{% endblock head %}
+
+{% block body %}
+    <h1>En esta sección vas a poder agregar las materias aprobadas.</h1>
+
+{% endblock body %}
+
+{% block reseñas %}
+
+<form action="" method="POST">  {% csrf_token %}
+
+    <table>
+
+        {{form.as_table}}
+
+    </table>
+
+    <input type="submit" value="Enviar">
+
+
+</form>
+
+{% endblock %}
