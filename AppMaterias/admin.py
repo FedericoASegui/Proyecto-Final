@@ -4,5 +4,6 @@ from .models import *
 # Register your models here.
 
 
-admin.site.register(Aprobada)
+admin.site.register(OfertaCalificada)
 admin.site.register(Materia)
+admin.site.register(Avatar)

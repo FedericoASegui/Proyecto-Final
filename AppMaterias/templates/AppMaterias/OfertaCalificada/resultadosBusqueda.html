@@ -15,9 +15,9 @@
 
 {% for r in resultados %}
 
-    <p>Reseña hecha por :{{r.autor}}</p>
-    <p>De la película: {{r.nombre}}, dirigida por {{r.director}} del año {{r.año}}</p>
-    <p>Calificación: {{r.puntaje}}</p>
+    <p>Reseña hecha por :{{r.usuario}}</p>
+    <p>De la materia: {{r.materia}}, catedra {{r.catedra}} y profesor {{r.profesor}} cursada en el año {{r.año}}</p>
+    <p>Puntaje: {{r.puntaje}}</p>
     <p>Reseña: {{r.reseña}}</p>
 
     <p>********************************************************</p>
@@ -26,7 +26,7 @@
 
 {% else %}
 
-<p>No hay reseñas de esa película.</p>
+<p>No hay reseñas de esa materia.</p>
 
 {% endif %}
 

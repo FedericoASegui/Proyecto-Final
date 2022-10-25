@@ -7,7 +7,13 @@
 {% block body %}
     <h1>{{mensaje}}</h1>
     <h1>Bienvenidos a nuestro campus facultativo!</h1>
-    <p>Acá vas a poder cargar tus materias aprobadas junto con su califiación final para que vayas llevando la carrera ordenada!</p>
+    <p>Acá vas a poder cargar tus materias aprobadas junto con su calificación final para que vayas llevando la carrera ordenada!
+
+        <center><img src="https://www.asap.com.ve/wp-content/uploads/2019/07/0_x5OTkS0Vq__c0mH9.jpg" width="500" wide="500"></center>
+    </p>
+
+    
+    
 {% endblock body %}
 
 {% block reseñas %}
@@ -15,15 +21,25 @@
     <!-- Search widget-->
     <div class="card mb-4">
         <form action="/AppMaterias/buscar/" method="GET">
-            <div class="card-header">Buscar Materias</div>
+            <div class="card-header">Buscar Opiniones de Materias</div>
             <div class="card-body">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Ingresa el nombre..." name="reseña" id="reseña" />
+                    <input class="form-control" type="text" placeholder="Ingresa la materia..." name="reseña" id="reseña" />
                     <input type="submit" value="Buscar">
                 </div>
+
+                
             </div>
+            
+            
         </form>
+
+        
         
     </div>
+
+    
 </div>
+
+
 {% endblock %}

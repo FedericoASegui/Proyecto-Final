@@ -11286,3 +11286,25 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+.prueba{
+  background-color: #000;
+  display:inline-flex;
+}
+
+.prueba a{
+  text-decoration: none;
+  color: white;
+  padding: 0 10px;
+}
+
+.prueba a:hover{
+  background-color: white;
+  color: black;
+}
+
+.prueba a.active{
+  background-color: white;
+  color: black;
+}
+

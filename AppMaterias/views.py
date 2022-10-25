@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from AppMaterias.forms import AprobadaFormulario, MateriaFormulario, RegistroFormulario
-from AppMaterias.models import Aprobada, Materia
+from AppMaterias.forms import AvatarFormulario, OfertaCalificadaFormulario, MateriaFormulario, RegistroFormulario
+from AppMaterias.models import Avatar, OfertaCalificada, Materia
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
@@ -76,27 +77,27 @@ def inicio(request):
     return render(request, 'AppMaterias/inicio.html')
 
 @login_required
-def addMateria(request):
+def addOfertaCalificada(request):
 
     if request.method == 'POST':
 
-        miFormulario=AprobadaFormulario(request.POST)
+        miFormulario=OfertaCalificadaFormulario(request.POST)
 
         if miFormulario.is_valid():
 
             informacion = miFormulario.cleaned_data
 
-            peli = Materia(autor=request.user,nombre=informacion['nombre'], año=informacion['año'],
-             director=informacion['director'], puntaje=informacion['puntaje'], reseña=informacion['reseña'])
+            Oferta = OfertaCalificada(usuario=request.user, materia=informacion['materia'], catedra=informacion['catedra'], 
+             profesor=informacion['profesor'], año=informacion['año'], puntaje=informacion['puntaje'], reseña=informacion['reseña'])
 
-            peli.save()
+            Oferta.save()
 
             return render(request, 'AppMaterias/inicio.html')
     else:
 
-        miFormulario=AprobadaFormulario()
+        miFormulario=OfertaCalificadaFormulario()
 
-    return render(request, 'AppMaterias/Aprobadas/añadirAprobadas.html', {'form':miFormulario})
+    return render(request, 'AppMaterias/OfertaCalificada/añadirOfertaCalificada.html', {'form':miFormulario})
 
 @login_required
 def buscar(request):
@@ -105,9 +106,9 @@ def buscar(request):
 
         nombre=request.GET['reseña']
 
-        resultados=Aprobada.objects.filter(nombre__icontains=nombre)
+        resultados=OfertaCalificada.objects.filter(materia__icontains=nombre)
 
-        return render(request, "AppMaterias/Reseñas/resultadosBusqueda.html",{"resultados":resultados, "busqueda":nombre})
+        return render(request, "AppMaterias/OfertaCalificada/resultadosBusqueda.html",{"resultados":resultados, "busqueda":nombre})
 
     else:
 
@@ -128,10 +129,10 @@ def addMaterias(request):
 
 
 
-            materia = Materia(nombre=informacion['nombre'], fecha=informacion['fecha'],
-             imagen=informacion['imagen'])
+            asignatura = Materia(materia=informacion['materia'], catedra=informacion['catedra'], profesor=informacion['profesor'] ,
+             año=informacion['año'], nota=informacion['nota'], bibliografia=informacion['bibliografia'])
 
-            materia.save()
+            asignatura.save()
 
             return render(request, 'AppMaterias/inicio.html')
     else:
@@ -150,23 +151,23 @@ def materias(request):
     return render(request, "AppMaterias/Materias/listaMaterias.html",{'resultados':materias})
 
 
-#Vista para Borrar Profes (Parte del CRUD)
+#Vista para Borrar materias (Parte del CRUD)
 
 @login_required
-def borrarMaterias(request, materia_nombre):
+def borrarMaterias(request, asignatura_materia):
 
-    peli = Materia.objects.get(nombre=materia_nombre)
+    oferta = Materia.objects.get(materia=asignatura_materia)
     
-    peli.delete()
+    oferta.delete()
     
     materias = Materia.objects.all()
 
     return render(request, "AppMaterias/Materias/listaMaterias.html",{'resultados':materias})
 
 @login_required
-def editarMateria(request, materia_nombre):
+def editarMateria(request, asignatura_materia):
 
-    peli = Materia.objects.get(nombre=materia_nombre)
+    oferta = Materia.objects.get(materia=asignatura_materia)
 
     if request.method == "POST":
 
@@ -176,20 +177,24 @@ def editarMateria(request, materia_nombre):
 
             informacion = miFormulario.cleaned_data
 
-            peli.nombre = informacion['nombre']
-            peli.fecha = informacion['fecha']
-            peli.imagen = informacion['imagen']
+            oferta.materia = informacion['materia']
+            oferta.catedra = informacion['catedra']
+            oferta.profesor = informacion['profesor']
+            oferta.año = informacion['año']
+            oferta.nota = informacion['nota']
+            oferta.bibliografia = informacion['bibliografia']
+            
 
-            peli.save()
+            oferta.save()
 
             return render(request, "AppMaterias/inicio.html")
 
     else:
 
-        miFormulario= MateriaFormulario(initial={'nombre':peli.nombre, 'fecha':peli.fecha,
-        'imagen':peli.imagen})
+        miFormulario= MateriaFormulario(initial={'materia':oferta.materia, 'catedra':oferta.catedra, 'profesor':oferta.profesor, 
+         'año':oferta.año, 'nota':oferta.nota, 'bibliografia':oferta.bibliografia})
 
-    return render(request, "AppMaterias/Materias/editarMateria.html",{'miFormulario':miFormulario, 'resultado':materia_nombre})
+    return render(request, "AppMaterias/Materias/editarMaterias.html",{'miFormulario':miFormulario, 'resultado':asignatura_materia})
 
 
 #Vista para Editar Usuarios (Parte del CRUD)
@@ -213,6 +218,7 @@ def editarUsuario(request):
             usuario.password2 = informacion['password1']
             usuario.save()
 
+
             return render(request, "AppMaterias/Autenticar/inicio.html")
 
     else:
@@ -220,5 +226,31 @@ def editarUsuario(request):
         miFormulario= RegistroFormulario(initial={'username':usuario.username, 'email':usuario.email})
 
     return render(request, "AppMaterias/Autenticar/editarUsuario.html",{'miFormulario':miFormulario, 'usuario':usuario.username})
+
+
+@login_required
+def agregarAvatar(request):
+
+    if request.method=="POST":
+
+        form = AvatarFormulario(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            usuariooActual = User.objects.get(username=request.user)
+
+            avatar = Avatar(usuario=usuariooActual, imagen=form.cleaned_data["imagen"])
+
+            avatar.save()
+
+            return render(request, "AppMaterias/inicio.html")
+
+    else:
+
+        form = AvatarFormulario()
+
+    return render(request, "AppMaterias/Avatar/agregarAvatar.html", {"formulario":form})
+        
+
 
 

@@ -1,15 +1,17 @@
 from django import forms
 
-from AppMaterias.models import Materia
+from AppMaterias.models import Avatar, Materia
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from AppMaterias.models import Avatar
 
-class AprobadaFormulario(forms.Form):
+class OfertaCalificadaFormulario(forms.Form):
 
-    nombre=forms.CharField(max_length=40)
+    materia=forms.CharField(max_length=40)
+    catedra=forms.CharField(max_length=40)
+    profesor=forms.CharField(max_length=40)
     año=forms.IntegerField()
-    director=forms.CharField(max_length=40)
     puntaje=forms.FloatField()
     reseña=forms.CharField(widget=forms.Textarea)
 
@@ -20,7 +22,7 @@ class MateriaFormulario(forms.ModelForm):
     class Meta:
 
         model = Materia
-        fields = ['Nombre', 'Calificación']
+        fields = ['materia', 'catedra', 'profesor', 'año', 'nota', 'bibliografia']
 
 class RegistroFormulario(UserCreationForm):
 
@@ -32,3 +34,10 @@ class RegistroFormulario(UserCreationForm):
 
         model = User
         fields = ['username', 'email', 'password1', 'password2'] 
+
+class AvatarFormulario(forms.ModelForm):
+
+    class Meta:
+
+        model = Avatar
+        fields = ["imagen"]

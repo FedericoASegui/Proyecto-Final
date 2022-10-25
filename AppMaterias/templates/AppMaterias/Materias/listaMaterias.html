@@ -5,25 +5,46 @@
 {% endblock head %}
 
 {% block body %}
-    <h1>En esta sección podes ver las materias que tenes aprobadas hasta el momento.</h1>
+    <p><h1>En esta sección podes ver las materias que tenes aprobadas hasta el momento.</h1>
+        <img src="https://img.freepik.com/vector-premium/graduacion-parque-campus-grupo-estudiantes-felices-saltando-sobre-certificados-telon-fondo-edificio-universitario-manos-ninos-ninas-tunicas-estudiante-arrojan-gorras-concepto-aislado-dibujos-animados-vectoriales_176411-4154.jpg?w=2000" width="600" wide="600">
+
+
+    </p>
 
 {% endblock body %}
 
 {% block reseñas %}
 
-<a href="{% url 'Añadir Materias' %}">Añadir una nueva materia.</a>
+
+<a href="{% url 'Añadir Materias' %}" style="color:blue">Añadir una nueva materia.</a>
+<br>
+
+
 
 {% for e in resultados %}
+    
+    <br>
 
-    <p>Materia :{{e.nombre}}</p>
-    <p>Calificación: {{e.numero}}</p>
+    <p>Materia: {{e.materia}}</p>
+    <p>Catedra: {{e.catedra}}</p>
+    <p>Profesor: {{e.profesor}}</p>
+    <p>Año de Cursada: {{e.año}}</p>
+    <p>Nota: {{e.nota}}</p>
+    <p>Bibliografia:</p>
 
-    <img src="{{e.imagen.url}}" alt="No hay imagen.">
+    <img src="{{e.bibliografia.url}}" alt="No hay imagen."style="max-width: 200px;">
+    
 
+    <br>
+    <br>
 
     <button>
-        <a href="{% url 'Editar Materia' e.nombre %}">Editar la materia.</a>
+        <a href="{% url 'Editar Materia' e.materia %}">Editar la materia.</a>
     
+    </button>
+
+    <button>
+        <a href="{% url 'Borrar Materia' e.materia %}">Borrar la materia.</a>
     </button>
 
 
@@ -34,4 +55,4 @@
 
 
 
-{% endblock %}
+{% endblock reseñas %}
